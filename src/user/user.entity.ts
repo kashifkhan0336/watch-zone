@@ -5,27 +5,31 @@ import {
     EntityRepositoryType,
     OneToMany,
     PrimaryKey,
-    Property
+    Property,
+    BeforeCreate,
+    BeforeUpdate,
+    Enum
 } from "@mikro-orm/core";
 import { UserRepository } from "./user.repository";
+import { hash } from "argon2";
 
+
+export enum UserPlan {
+    NONE = 'none',
+    TRIAL = 'trial',
+    BASIC = 'basic',
+    PREMIUM = 'premium'
+}
 
 @Entity({ customRepository: () => UserRepository })
-export class User {
+export class UserEntity {
     [EntityRepositoryType]?: UserRepository
 
     @PrimaryKey()
     id: number;
 
-    @Property({ hidden: true, unique: true, length: 255 })
-    email: string;
-
-
-    @Property({ hidden: true })
-    password: string;
-
-    @Property({ default: false })
-    isVerified: boolean;
+    @Property()
+    userId: string
 
     @Property()
     createdAt = new Date();
@@ -33,9 +37,12 @@ export class User {
     @Property({ onUpdate: () => new Date() })
     updatedAt = new Date();
 
-    constructor(email: string, password: string) {
-        this.email = email;
-        this.password = password;
-    }
+    @Enum(() => UserPlan)
+    @Property({ default: UserPlan.NONE })
+    plan: UserPlan
 
+    constructor(userId: string) {
+        this.userId = userId;
+    }
 }
+

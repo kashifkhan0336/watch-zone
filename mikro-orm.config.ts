@@ -15,7 +15,7 @@ export default defineConfig({
     dbName: 'watchzone',
     entities: ['dist/**/*.entity.js'],
     entitiesTs: ['src/**/*.entity.ts'],
-    debug: true,
+    debug: false,
     loadStrategy: LoadStrategy.JOINED,
     highlighter: new SqlHighlighter(),
     metadataProvider: TsMorphMetadataProvider,
