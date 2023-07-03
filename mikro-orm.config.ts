@@ -8,10 +8,10 @@ import { SeedManager } from '@mikro-orm/seeder';
 
 
 export default defineConfig({
-    host: 'localhost',
+    host: 'database',
     port: 5432,
-    user: 'kashifkhan',
-    password: '123',
+    user: 'root',
+    password: 'root',
     dbName: 'watchzone',
     entities: ['dist/**/*.entity.js'],
     entitiesTs: ['src/**/*.entity.ts'],

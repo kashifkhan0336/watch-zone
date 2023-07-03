@@ -11,7 +11,7 @@ import {
     Enum
 } from "@mikro-orm/core";
 import { UserRepository } from "./user.repository";
-import { hash } from "argon2";
+
 
 
 export enum UserPlan {
@@ -36,10 +36,6 @@ export class UserEntity {
 
     @Property({ onUpdate: () => new Date() })
     updatedAt = new Date();
-
-    @Enum(() => UserPlan)
-    @Property({ default: UserPlan.NONE })
-    plan: UserPlan
 
     constructor(userId: string) {
         this.userId = userId;
