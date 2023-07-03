@@ -7,7 +7,7 @@ import { Session } from './auth/session.decorator';
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) { }
-  @UseGuards(new AuthGuard())
+
   @Get()
   getHello(): string {
     return this.appService.getHello();
