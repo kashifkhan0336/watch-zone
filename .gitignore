@@ -2,7 +2,8 @@
 /dist
 /node_modules
 /my-entities
-
+/data
+/uploads
 # Logs
 logs
 *.log
