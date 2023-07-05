@@ -7,7 +7,6 @@ services:
     command: dev
     ports:
       - 3000:3000
-
     depends_on:
       - database
     networks:
@@ -20,19 +19,19 @@ services:
     restart: unless-stopped
     healthcheck:
       test:
-        [
-          'CMD',
-          'pg_isready',
-          '-U',
-          'supertoken_user',
-          '-d',
-          'supertokens'
-        ]
+        - 'CMD'
+        - 'pg_isready'
+        - '-U'
+        - 'root'
+        - '-d'
+        - 'supertokens'
       interval: 5s
       timeout: 5s
       retries: 5
-    env_file:
-      - .env
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: supertokens
     ports:
       - "5432:5432"
     networks:
@@ -44,8 +43,8 @@ services:
         condition: service_healthy
     ports:
       - 3567:3567
-    env_file:
-      - .env
+    environment:
+      - POSTGRESQL_CONNECTION_URI="postgresql://root:root@database:5432/supertokens"
     networks:
       - app_network
     healthcheck:
@@ -61,27 +60,44 @@ services:
     networks:
       - app_network
 
-  directus:
-    image: directus/directus:latest
-    ports:
-      - 8055:8055
-    volumes:
-      - ./uploads:/directus/uploads
-    depends_on:
-      - cache
-      - database
-    networks:
-      - app_network
-    env_file:
-      - .env
+  # directus:
+  #   image: directus/directus:latest
+  #   ports:
+  #     - 8055:8055
+  #   volumes:
+  #     - ./uploads:/directus/uploads
+  #   depends_on:
+  #   - cache
+  #   - database
+  #   - supertokens
+  #   networks:
+  #     - app_network
+  #   environment:
+  #     KEY: '255d861b-5ea1-5996-9aa3-922530ec40b1'
+  #     SECRET: '6116487b-cda1-52c2-b5b5-c8022c45e263'
+  #     DB_CLIENT: 'pg'
+  #     DB_HOST: 'database'
+  #     DB_PORT: '5432'
+  #     DB_DATABASE: 'watchzone'
+  #     DB_USER: 'root'
+  #     DB_PASSWORD: 'root'
+  #     CACHE_ENABLED: 'true'
+  #     CACHE_STORE: 'redis'
+  #     REDIS: 'redis://cache:6379'
+  #     ADMIN_EMAIL: 'admin@example.com'
+  #     ADMIN_PASSWORD: 'd1r3ctu5'
   pgadmin:
     container_name: pgadmin4_container
     image: dpage/pgadmin4
     restart: always
     volumes:
       - ./data/pgadmin:/var/lib/pgadmin
-    env_file:
-      - .env
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - "5050:80"
     networks:

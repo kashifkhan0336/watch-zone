@@ -5,7 +5,8 @@ import { UserModule } from './user/user.module';
 import { MikroOrmMiddleware, MikroOrmModule } from '@mikro-orm/nestjs';
 import { MikroORM } from '@mikro-orm/core';
 import { AuthModule } from './auth/auth.module';
-import { MovieModule } from './movie/movie.module';
+import { MediaModule } from './media/media.module';
+
 
 import * as SuperTokensConfig from '../config';
 const DEFAULT_ADMIN = {
@@ -26,7 +27,7 @@ const authenticate = async (email: string, password: string) => {
     // apiKey: "IF YOU HAVE AN API KEY FOR THE CORE, ADD IT HERE",
 
     appInfo: SuperTokensConfig.appInfo,
-  }), MovieModule],
+  }), MediaModule],
   controllers: [AppController],
   providers: [AppService],
 })
