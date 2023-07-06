@@ -15,3 +15,16 @@ model User {
   userId String
 
 }
+
+model Media {
+  id Int @default(autoincrement()) @id
+  mediaName String
+  movie Movie?
+
+}
+
+model Movie {
+  id Int @default(autoincrement()) @id
+  media Media? @relation(fields: [mediaId], references: [id])
+  mediaId Int? @unique
+}

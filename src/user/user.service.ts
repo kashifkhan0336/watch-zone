@@ -13,6 +13,7 @@ export class UserService {
     ) { }
 
     async create(userId: string): Promise<any> {
-        this.prisma.user.create({ data : { userId }})
+        this.prisma.media.create({ data: { mediaName: "The Dark Knight", movie: {}}})
+        return this.prisma.user.create({ data: { userId } })
     }
 }
