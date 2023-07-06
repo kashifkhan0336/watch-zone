@@ -1,26 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { UserRepository } from './user.repository';
-import { EntityManager, RequestContext } from '@mikro-orm/core';
-import { CreateUserDto } from './dto';
-import { UserEntity } from './user.entity';
-import { HttpException, HttpStatus } from '@nestjs/common';
 
+import { CreateUserDto } from './dto';
+
+import { HttpException, HttpStatus } from '@nestjs/common';
+import { PrismaService } from '../shared/services/prisma.service';
+import { User, Prisma } from '@prisma/client';
 @Injectable()
 export class UserService {
     constructor(
-        private readonly userRepository: UserRepository,
-        private readonly em: EntityManager
+        private prisma: PrismaService
+
     ) { }
 
     async create(userId: string): Promise<any> {
-        const User = new UserEntity(userId);
-        // const user = new UserEntity(userId)
-        // console.log("Message from user service!")
-        // await this.em.persistAndFlush(user)
-        await RequestContext.createAsync(this.em, async () => {
-            const user_ = this.em.create(UserEntity, { userId: userId })
-            await this.em.persistAndFlush(user_);
-        })
 
+        return this.prisma.user.create(
+            { data: { userId: userId } }
+        )
     }
 }

@@ -7,7 +7,6 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
-    "generate": "ts-node generate.ts",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "dev": "nest start --watch",
@@ -21,33 +20,24 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@adminjs/express": "^6.0.0",
-    "@adminjs/nestjs": "^6.0.1",
-    "@mikro-orm/core": "^5.7.12",
-    "@mikro-orm/entity-generator": "^5.7.12",
-    "@mikro-orm/migrations": "^5.7.12",
-    "@mikro-orm/nestjs": "^5.1.8",
-    "@mikro-orm/postgresql": "^5.7.12",
-    "@mikro-orm/reflection": "^5.7.12",
-    "@mikro-orm/sql-highlighter": "^1.0.1",
     "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^7.0.3",
-    "adminjs": "^7.0.8",
+    "@prisma/client": "^4.16.2",
     "argon2": "^0.30.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "express-formidable": "^1.2.0",
     "express-list-routes": "^1.1.5",
     "express-session": "^1.17.3",
+    "prisma": "^4.16.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "supertokens-node": "^14.1.2"
   },
   "devDependencies": {
-    "@mikro-orm/cli": "^5.7.12",
-    "@mikro-orm/seeder": "^5.7.12",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",
@@ -86,12 +76,5 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "mikro-orm": {
-    "useTsNode": true,
-    "configPaths": [
-      "./src/mikro-orm.config.js",
-      "./mikro-orm.config.ts"
-    ]
   }
 }
