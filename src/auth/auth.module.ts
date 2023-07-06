@@ -8,15 +8,15 @@ import {
 import { AuthMiddleware } from './auth.middleware';
 import { ConfigInjectionToken, AuthModuleConfig } from './config.interface';
 import { SupertokensService } from './supertokens/supertokens.service';
-import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { UserEntity } from 'src/user/user.entity';
+
 import { UserService } from 'src/user/user.service';
+import { PrismaService } from 'src/shared/services/prisma.service';
 
 @Module({
-  providers: [SupertokensService, UserService],
+  providers: [SupertokensService, UserService, PrismaService],
   exports: [],
   controllers: [],
-  imports: [MikroOrmModule.forFeature({ entities: [UserEntity] })]
+  imports: []
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

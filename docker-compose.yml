@@ -4,7 +4,7 @@ services:
     container_name: main_nest_application
     image: watchzone:latest
     restart: always
-    command: dev
+    # command: dev
     ports:
       - 3000:3000
     depends_on:
