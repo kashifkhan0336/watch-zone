@@ -8,6 +8,7 @@ import { MovieModule } from './movie/movie.module';
 import { SeriesModule } from './series/series.module';
 import { EpisodeModule } from './episode/episode.module';
 import { ProfileModule } from './profile/profile.module';
+import { PaymentModule } from './payment/payment.module';
 
 
 import * as SuperTokensConfig from '../config';
@@ -19,7 +20,7 @@ import * as SuperTokensConfig from '../config';
     // apiKey: "IF YOU HAVE AN API KEY FOR THE CORE, ADD IT HERE",
 
     appInfo: SuperTokensConfig.appInfo,
-  }), MediaModule, MovieModule, SeriesModule, EpisodeModule, ProfileModule],
+  }), MediaModule, MovieModule, SeriesModule, EpisodeModule, ProfileModule, PaymentModule],
   controllers: [AppController],
   providers: [AppService],
 })
