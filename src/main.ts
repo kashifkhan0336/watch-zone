@@ -4,11 +4,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import supertokens from 'supertokens-node';
 import { SupertokensExceptionFilter } from './auth/auth.filter';
 import * as SuperTokensConfig from '../config';
+import { VersioningType } from '@nestjs/common';
 
 
 async function bootstrap() {
 
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { rawBody: true });
 
   app.enableCors({
     origin: [SuperTokensConfig.appInfo.websiteDomain],
@@ -16,7 +17,13 @@ async function bootstrap() {
     credentials: true,
   });
   app.useGlobalFilters(new SupertokensExceptionFilter());
-  app.setGlobalPrefix("/api/v1")
+  app.setGlobalPrefix("api")
+  app.enableVersioning({
+    type: VersioningType.URI,
+    prefix: 'v',
+    defaultVersion: '1',
+  });
+  await app.init()
   const config = new DocumentBuilder()
     .setTitle("WatchZone api")
     .setDescription("WatchZone multimedia streaming platform")
@@ -24,7 +31,7 @@ async function bootstrap() {
     .build()
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('swagger', app, document);
 
   await app.listen(3000);
 }

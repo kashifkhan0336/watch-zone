@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule, OnModuleInit } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, OnModuleInit, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
@@ -14,6 +14,8 @@ import { ConfigModule } from '@nestjs/config';
 
 
 import * as SuperTokensConfig from '../config';
+import { RawBodyMiddleware } from './shared/middlewares/rawBody.middleware';
+import { JsonBodyMiddleware } from './shared/middlewares/jsonBody.middleware';
 
 @Module({
   imports: [ConfigModule.forRoot(), UserModule, AuthModule.forRoot({
@@ -27,6 +29,5 @@ import * as SuperTokensConfig from '../config';
   providers: [AppService],
 })
 export class AppModule {
-  constructor() { }
 
 }
