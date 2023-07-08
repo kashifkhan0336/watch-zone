@@ -1,9 +1,10 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { STRIPE_CLIENT } from 'src/stripe/constants';
 import Stripe from 'stripe';
 import { PriceResponse } from './interfaces/priceResponse.interface';
 import { PrismaService } from 'src/shared/services/prisma.service';
+import { CreateSubscriptionResponse } from './interfaces/subscriptionResponse.interface';
 @Injectable()
 export class PaymentService {
     constructor(
@@ -22,7 +23,7 @@ export class PaymentService {
         }
     }
 
-    async createSubscription(userId: string, priceId: string): Promise<any> {
+    async createSubscription(userId: string, priceId: string): Promise<CreateSubscriptionResponse> {
         const user = await this.prisma.user.findFirst({ where: { userId } })
         try {
             const subscription = await this.stripe.subscriptions.create({
@@ -40,13 +41,21 @@ export class PaymentService {
                     subscriptionId: subscription.id,
                     clientSecret: intent.client_secret
                 }
-            }
-            // return {
-            //     subscriptionId: subscription.id,
-            //     clientSecret: invoice.payment_intent
-            // }
-        } catch (error) {
+            } else {
+                throw new HttpException('Failed to create payment intent', HttpStatus.INTERNAL_SERVER_ERROR);
 
+            }
+        } catch (error) {
+            console.log(error)
+            if (error instanceof HttpException) {
+                throw error;
+            } else {
+                throw new HttpException('Failed to create subscription', HttpStatus.BAD_REQUEST);
+            }
         }
+    }
+
+    async getSubscriptionByCustomer() {
+
     }
 }
