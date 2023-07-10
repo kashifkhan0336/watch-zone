@@ -1,3 +1,4 @@
+/// <reference types="stripe-event-types" />
 import { Injectable, CanActivate, ExecutionContext, Inject, RawBodyRequest } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import Stripe from 'stripe';
@@ -17,7 +18,8 @@ export class StripeWebhookGuard implements CanActivate {
                 req.rawBody,
                 req.header('Stripe-Signature'),
                 process.env.STRIPE_WEBHOOK_SECRET
-            );
+            ) as Stripe.DiscriminatedEvent;
+
             req.event = event;
             return true;
         } catch (err) {

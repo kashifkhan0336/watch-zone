@@ -5,6 +5,7 @@ import Stripe from 'stripe';
 import { PriceResponse } from './interfaces/priceResponse.interface';
 import { PrismaService } from 'src/shared/services/prisma.service';
 import { CreateSubscriptionResponse } from './interfaces/subscriptionResponse.interface';
+import { generateTrialTimestamp } from './utils/utility';
 @Injectable()
 export class PaymentService {
     constructor(
@@ -31,6 +32,7 @@ export class PaymentService {
                 items: [{
                     price: priceId
                 }],
+
                 payment_behavior: 'default_incomplete',
                 expand: ['latest_invoice.payment_intent'],
             })
@@ -55,7 +57,7 @@ export class PaymentService {
         }
     }
 
-    async getSubscriptionByCustomer() {
-
+    async getSubscriptionData(customerId: string) {
+        console.log(customerId)
     }
 }

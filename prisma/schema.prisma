@@ -8,9 +8,18 @@ datasource db {
 }
 
 model User {
-  id         Int    @id @default(autoincrement())
-  userId     String
-  customerId String
+  id           Int           @id @default(autoincrement())
+  userId       String        @unique
+  customerId   String
+  subscription Subscription?
+}
+
+model Subscription {
+  id       Int     @id @default(autoincrement())
+  isActive Boolean
+  type     String
+  userId   Int     @unique
+  user     User    @relation(fields: [userId], references: [id])
 }
 
 model Media {

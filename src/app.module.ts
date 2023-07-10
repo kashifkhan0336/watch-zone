@@ -16,6 +16,7 @@ import { ConfigModule } from '@nestjs/config';
 import * as SuperTokensConfig from '../config';
 import { RawBodyMiddleware } from './shared/middlewares/rawBody.middleware';
 import { JsonBodyMiddleware } from './shared/middlewares/jsonBody.middleware';
+import { WebhookModule } from './webhook/webhook.module';
 
 @Module({
   imports: [ConfigModule.forRoot(), UserModule, AuthModule.forRoot({
@@ -24,7 +25,7 @@ import { JsonBodyMiddleware } from './shared/middlewares/jsonBody.middleware';
     // apiKey: "IF YOU HAVE AN API KEY FOR THE CORE, ADD IT HERE",
 
     appInfo: SuperTokensConfig.appInfo,
-  }), MediaModule, MovieModule, SeriesModule, EpisodeModule, ProfileModule, PaymentModule, StripeModule],
+  }), MediaModule, MovieModule, SeriesModule, EpisodeModule, ProfileModule, PaymentModule, StripeModule, WebhookModule],
   controllers: [AppController],
   providers: [AppService],
 })
