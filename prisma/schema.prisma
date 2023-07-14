@@ -15,11 +15,12 @@ model User {
 }
 
 model Subscription {
-  id       Int     @id @default(autoincrement())
-  isActive Boolean
-  type     String
-  userId   Int     @unique
-  user     User    @relation(fields: [userId], references: [id])
+  id             Int     @id @default(autoincrement())
+  subscriptionId String
+  isActive       Boolean
+  type           String
+  userId         Int     @unique
+  user           User    @relation(fields: [userId], references: [id])
 }
 
 model Media {

@@ -21,4 +21,11 @@ export class UserService {
         })
         return this.prisma.user.create({ data: { userId, customerId: customer.id } })
     }
+
+    async changePassword() {
+
+    }
+    async changeEmail() {
+
+    }
 }

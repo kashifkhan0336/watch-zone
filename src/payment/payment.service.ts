@@ -44,7 +44,7 @@ export class PaymentService {
                     clientSecret: intent.client_secret
                 }
             } else {
-                throw new HttpException('Failed to create payment intent', HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new HttpException('Failed to create payment intent', HttpStatus.BAD_REQUEST);
 
             }
         } catch (error) {
@@ -59,5 +59,32 @@ export class PaymentService {
 
     async getSubscriptionData(customerId: string) {
         console.log(customerId)
+    }
+
+    async paymentSucceeded({ data: { object: { billing_reason, subscription, payment_intent } } }: Stripe.DiscriminatedEvent.InvoiceEvent) {
+        const subscription_id = subscription as string
+        const payment_intent_id = payment_intent as string
+        console.log(billing_reason)
+        if (billing_reason == 'subscription_create') {
+            const paymentIntent = await this.stripe.paymentIntents.retrieve(payment_intent_id)
+            console.log(paymentIntent.payment_method)
+            try {
+                const subscription = await this.stripe.subscriptions.update(
+                    subscription_id,
+                    {
+                        default_payment_method: paymentIntent.payment_method as string,
+                    },
+                );
+
+                console.log("Default payment method set for subscription:" + paymentIntent.payment_method);
+            } catch (err) {
+                console.log(err);
+                console.log(`⚠️  Falied to update the default payment method for subscription: ${subscription_id}`);
+            }
+        }
+    }
+
+    async cancelSubscription(userId: string) {
+        console.log("")
     }
 }

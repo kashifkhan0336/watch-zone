@@ -9,11 +9,9 @@ export class WebhookService {
     ) { }
     stripWebHook(event: Stripe.DiscriminatedEvent) {
         switch (event.type) {
-            case 'payment_intent.succeeded':
-                const paymentIntent = event.data.object;
-                console.log("payment intent succeeded")
-                console.log(paymentIntent.customer)
-
+            case 'invoice.payment_succeeded':
+                console.log("invoice payment success")
+                this.paymentService.paymentSucceeded(event)
                 // Then define and call a method to handle the successful payment intent.
                 // handlePaymentIntentSucceeded(paymentIntent);
                 break;
@@ -41,6 +39,9 @@ export class WebhookService {
                 console.log("Subscription canceled!")
                 //console.log(invoiceFailed)
                 break;
+
+            case 'customer.subscription.created':
+                console.log("customer subscriptino created")
         }
     }
 }

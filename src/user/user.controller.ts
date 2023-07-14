@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, UseGuards, UsePipes } from '@nestjs/common';
-import { CreateUserDto } from './dto';
+import { CreateUserDto, updateUserPasswordDto } from './dto';
 import { UserService } from './user.service';
 import { ValidationPipe } from 'src/shared/pipes/validation.pipe';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -8,6 +8,7 @@ import { SessionContainer } from 'supertokens-node/recipe/session';
 import UserMetadata from "supertokens-node/recipe/usermetadata";
 
 @Controller('/')
+@UseGuards(new AuthGuard())
 export class UserController {
     constructor(private readonly userService: UserService) {
 
@@ -18,7 +19,7 @@ export class UserController {
     }
 
     @Get("/profile")
-    @UseGuards(new AuthGuard())
+
     async getProfile(@Session() session: SessionContainer): Promise<string> {
         const userId = session.getUserId();
 
@@ -26,4 +27,14 @@ export class UserController {
         return "successfully!"
     }
 
+    @Post("/changePassword")
+    async changePassword(@Session() session: SessionContainer, @Body() updateUserPasswordDto: updateUserPasswordDto): Promise<any> {
+        console.log(updateUserPasswordDto)
+        //this.userService.changePassword()
+    }
+
+    @Post("/changeEmail")
+    async changeEmail(@Session() session: SessionContainer): Promise<any> {
+        this.userService.changeEmail()
+    }
 }

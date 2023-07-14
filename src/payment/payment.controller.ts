@@ -37,4 +37,10 @@ export class PaymentController {
     }
 
 
+    @Post("/cancel_subscription")
+    async cancelSubscription(@Session() session: SessionContainer): Promise<void> {
+
+        return this.paymentService.cancelSubscription(session.getUserId())
+    }
+
 }
