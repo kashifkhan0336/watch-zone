@@ -29,8 +29,8 @@ export class UserController {
 
     @Post("/changePassword")
     async changePassword(@Session() session: SessionContainer, @Body() updateUserPasswordDto: updateUserPasswordDto): Promise<any> {
-        console.log(updateUserPasswordDto)
-        //this.userService.changePassword()
+
+        return this.userService.changePassword(session!.getUserId(), updateUserPasswordDto)
     }
 
     @Post("/changeEmail")
