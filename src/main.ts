@@ -24,6 +24,7 @@ async function bootstrap() {
     defaultVersion: '1',
   });
   await app.init()
+
   const config = new DocumentBuilder()
     .setTitle("WatchZone api")
     .setDescription("WatchZone multimedia streaming platform")
@@ -34,6 +35,7 @@ async function bootstrap() {
   SwaggerModule.setup('swagger', app, document);
 
   await app.listen(3000);
+  console.log(await app.getUrl())
 }
 bootstrap()
   .catch((err) => {

@@ -6,8 +6,9 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import { Session } from 'src/auth/session.decorator';
 import { SessionContainer } from 'supertokens-node/recipe/session';
 import UserMetadata from "supertokens-node/recipe/usermetadata";
-
-@Controller('/')
+import { sendEmail } from 'supertokens-node/recipe/emailverification';
+import ThirdPartyEmailPassword from "supertokens-node/recipe/thirdpartyemailpassword";
+@Controller('/users')
 @UseGuards(new AuthGuard())
 export class UserController {
     constructor(private readonly userService: UserService) {
@@ -35,6 +36,18 @@ export class UserController {
 
     @Post("/changeEmail")
     async changeEmail(@Session() session: SessionContainer): Promise<any> {
-        this.userService.changeEmail()
+        return this.userService.changeEmail()
     }
+
+    // @Get("/testemail")
+    // async sendVerificationEmail(): Promise<any> {
+    //     return sendEmail({
+    //         type: 'EMAIL_VERIFICATION',
+    //         user: {
+    //             id: 'eba04bf4-f5ca-4777-a2ad-6df0c3cb469d',
+    //             email: 'kashifkhan0336@gmail.com'
+    //         },
+    //         emailVerifyLink: 'hono.com'
+    //     })
+    // }
 }

@@ -19,7 +19,50 @@ export class SupertokensService {
       },
       recipeList: [
         UserMetadata.init(),
+        EmailVerification.init({
+          mode: "OPTIONAL",
+          emailDelivery: {
+            override: (originalImplementation) => {
+              return {
+                ...originalImplementation,
+                sendEmail(input) {
+                  return originalImplementation.sendEmail({
+                    ...input,
+                    emailVerifyLink: input.emailVerifyLink.replace(
+                      // This is: `${websiteDomain}${websiteBasePath}/verify-email`
+                      "http://localhost:3000/api/v1/users/verify-email",
+                      "http://localhost:3000/api/v1/verification/email"
+                    )
+                  }
+                  )
+                },
+              }
+            }
+          }
+        }),
         ThirdPartyEmailPassword.init({
+          emailDelivery: {
+            override: (originalImplementation) => {
+              return {
+                ...originalImplementation,
+                sendEmail: async function (input) {
+                  if (input.type === "PASSWORD_RESET") {
+                    // You can change the path, domain of the reset password link,
+                    // or even deep link it to your mobile app
+                    return originalImplementation.sendEmail({
+                      ...input,
+                      passwordResetLink: input.passwordResetLink.replace(
+                        // This is: `${websiteDomain}${websiteBasePath}/reset-password`
+                        "http://localhost:3000/api/v1/reset-password",
+                        "http://localhost:3000/api/v1/verification/reset"
+                      )
+                    })
+                  }
+                  return originalImplementation.sendEmail(input);
+                }
+              }
+            }
+          },
           override: {
             apis: (originalImplementation) => {
               return {

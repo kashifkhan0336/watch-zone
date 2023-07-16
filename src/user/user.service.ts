@@ -28,6 +28,7 @@ export class UserService {
         console.log(isPasswordValid)
         if (isPasswordValid.status != "OK") {
             return "Invalid current password"
+
         }
         let response = await ThirdPartyEmailPassword.updateEmailOrPassword({
             userId,

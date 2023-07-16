@@ -17,6 +17,7 @@ import * as SuperTokensConfig from '../config';
 import { RawBodyMiddleware } from './shared/middlewares/rawBody.middleware';
 import { JsonBodyMiddleware } from './shared/middlewares/jsonBody.middleware';
 import { WebhookModule } from './webhook/webhook.module';
+import { VerificationModule } from './verification/verification.module';
 
 @Module({
   imports: [ConfigModule.forRoot(), UserModule, AuthModule.forRoot({
@@ -25,7 +26,7 @@ import { WebhookModule } from './webhook/webhook.module';
     // apiKey: "IF YOU HAVE AN API KEY FOR THE CORE, ADD IT HERE",
 
     appInfo: SuperTokensConfig.appInfo,
-  }), MediaModule, MovieModule, SeriesModule, EpisodeModule, ProfileModule, PaymentModule, StripeModule, WebhookModule],
+  }), MediaModule, MovieModule, SeriesModule, EpisodeModule, ProfileModule, PaymentModule, StripeModule, WebhookModule, VerificationModule],
   controllers: [AppController],
   providers: [AppService],
 })
