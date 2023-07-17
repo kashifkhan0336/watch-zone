@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import EmailVerification from "supertokens-node/recipe/emailverification";
-
+import ThirdPartyEmailPassword from "supertokens-node/recipe/thirdpartyemailpassword";
+import { sendEmail } from 'supertokens-node/recipe/thirdpartyemailpassword'
 @Injectable()
 export class VerificationService {
     async verifyEmail(token: string): Promise<string> {
@@ -15,5 +16,6 @@ export class VerificationService {
 
     async resetPassword(token: string) {
         console.log(token)
+
     }
 }

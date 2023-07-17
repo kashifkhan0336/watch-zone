@@ -8,9 +8,14 @@ import Dashboard from 'supertokens-node/recipe/dashboard';
 import EmailVerification from "supertokens-node/recipe/emailverification";
 import UserMetadata from "supertokens-node/recipe/usermetadata";
 import { UserService } from "../../user/user.service";
+import { MailerService } from '@nestjs-modules/mailer';
 @Injectable()
 export class SupertokensService {
-  constructor(@Inject(ConfigInjectionToken) private config: AuthModuleConfig, private UserService: UserService) {
+  constructor(
+    @Inject(ConfigInjectionToken) private config: AuthModuleConfig,
+    private UserService: UserService,
+    private readonly mailService: MailerService
+  ) {
     supertokens.init({
       appInfo: config.appInfo,
       supertokens: {
@@ -81,6 +86,21 @@ export class SupertokensService {
                   if (response.status === "OK") {
                     UserService.create(response.user.id)
                     console.log(response.user)
+                    const token = await EmailVerification.createEmailVerificationToken(response.user.id)
+                    if (token.status == 'OK') {
+                      await mailService
+                        .sendMail({
+                          to: response.user.email, // list of receivers
+                          from: 'kashifkhan0336@gmail.com', // sender address
+                          subject: 'Testing Nest MailerModule ✔', // Subject line
+                          text: 'welcome', // plaintext body
+                          html: token.token, // HTML body content
+                        })
+                        .then(() => {
+                          console.log("verification mail sent!")
+                        })
+                        .catch((err) => { console.log(err) });
+                    }
 
                   }
 

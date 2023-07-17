@@ -11,6 +11,8 @@ import { ProfileModule } from './profile/profile.module';
 import { PaymentModule } from './payment/payment.module';
 import { StripeModule } from './stripe/stripe.module';
 import { ConfigModule } from '@nestjs/config';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 
 import * as SuperTokensConfig from '../config';
@@ -26,7 +28,19 @@ import { VerificationModule } from './verification/verification.module';
     // apiKey: "IF YOU HAVE AN API KEY FOR THE CORE, ADD IT HERE",
 
     appInfo: SuperTokensConfig.appInfo,
-  }), MediaModule, MovieModule, SeriesModule, EpisodeModule, ProfileModule, PaymentModule, StripeModule, WebhookModule, VerificationModule],
+  }), MediaModule, MovieModule, SeriesModule, EpisodeModule, ProfileModule, PaymentModule, StripeModule, WebhookModule, VerificationModule, MailerModule.forRoot({
+    transport: process.env.SMTP_TRANSPORT_URI,
+    defaults: {
+      from: '"nest-modules" <modules@nestjs.com>',
+    },
+    template: {
+      dir: __dirname + '/templates',
+      adapter: new HandlebarsAdapter(),
+      options: {
+        strict: true,
+      },
+    },
+  }),],
   controllers: [AppController],
   providers: [AppService],
 })

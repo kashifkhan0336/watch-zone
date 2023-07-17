@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.0.0",
     "@nestjs/core": "^10.0.0",
@@ -32,12 +33,20 @@
     "express-formidable": "^1.2.0",
     "express-list-routes": "^1.1.5",
     "express-session": "^1.17.3",
+    "handlebars": "^4.7.7",
+    "nodemailer": "^6.9.3",
     "prisma": "^4.16.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "stripe": "^12.12.0",
     "stripe-event-types": "^2.3.0",
     "supertokens-node": "^14.1.2"
+  },
+  "overrides": {
+    "@nestjs-modules/mailer": {
+      "@nestjs/common": "$@nestjs/common",
+      "@nestjs/core": "$@nestjs/core"
+    }
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
