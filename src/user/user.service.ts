@@ -14,12 +14,12 @@ export class UserService {
         @Inject(STRIPE_CLIENT) private stripe: Stripe
     ) { }
 
-    async create(userId: string): Promise<any> {
+    async create(userId: string, email: string): Promise<any> {
         let userInfo = await ThirdPartyEmailPassword.getUserById(userId);
         const customer = await this.stripe.customers.create({
             email: userInfo.email
         })
-        return this.prisma.user.create({ data: { userId, customerId: customer.id } })
+        return this.prisma.user.create({ data: { userId, customerId: customer.id, email } })
     }
 
     async changePassword(userId: string, passwordInfo: updateUserPasswordDto): Promise<string> {

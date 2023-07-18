@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsStrongPassword, Validate } from 'class-validator';
-import { Match } from '../decorators/validations/confirmPassword';
+import { Match } from '../../shared/decorators/validations/confirmPassword';
 
 export class updateUserPasswordDto {
     @IsNotEmpty()

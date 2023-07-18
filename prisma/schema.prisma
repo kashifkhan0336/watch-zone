@@ -8,10 +8,22 @@ datasource db {
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  userId       String        @unique
-  customerId   String
-  subscription Subscription?
+  id                Int                 @id @default(autoincrement())
+  userId            String              @unique
+  email             String              @unique
+  customerId        String
+  passwordResetCode String?
+  subscription      Subscription?
+  verificationToken VerificationTokens?
+}
+
+model VerificationTokens {
+  id        Int      @id @default(autoincrement())
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int      @unique
 }
 
 model Subscription {

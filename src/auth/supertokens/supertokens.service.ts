@@ -84,7 +84,7 @@ export class SupertokensService {
                   let response = await originalImplementation.emailPasswordSignUpPOST(input);
 
                   if (response.status === "OK") {
-                    UserService.create(response.user.id)
+                    UserService.create(response.user.id, response.user.email)
                     console.log(response.user)
                     const token = await EmailVerification.createEmailVerificationToken(response.user.id)
                     if (token.status == 'OK') {
