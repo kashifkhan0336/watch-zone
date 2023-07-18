@@ -20,7 +20,7 @@
             color: #ffffff;
         }
 
-        a {
+        .button {
             display: inline-block;
             margin-top: 20px;
             padding: 10px 20px;
@@ -30,12 +30,13 @@
             border-radius: 5px;
         }
 
-        a:hover {
+        .button:hover {
             background-color: #001f3f;
         }
 
-        .accent {
-            color: #ffcc00;
+        .text-link {
+            color: #007bff;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -43,9 +44,10 @@
 <body>
     <h1>Email Verification - WatchZone</h1>
     <p>Thank you for signing up! Please verify your email address by clicking the link below:</p>
-    <a href="{{verificationUrl}}">Verify Email</a>
+    <a href="{{verificationUrl}}" class="button">Verify Email</a>
+    <p>If you are unable to click the button, you can copy and paste the following link into your browser:</p>
+    <p><a href="{{verificationUrl}}" class="text-link">{{verificationUrl}}</a></p>
     <p>If you did not sign up for this account, please ignore this email.</p>
-    <p class="accent">Note: The colors used in this email template are inspired by the 9anime.to website.</p>
 </body>
 
 </html>

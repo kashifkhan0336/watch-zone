@@ -92,9 +92,11 @@ export class SupertokensService {
                         .sendMail({
                           to: response.user.email, // list of receivers
                           from: 'kashifkhan0336@gmail.com', // sender address
-                          subject: 'Testing Nest MailerModule ✔', // Subject line
-                          text: 'welcome', // plaintext body
-                          html: token.token, // HTML body content
+                          subject: 'Email verification', // Subject line
+                          template: 'emailVerification',
+                          context: {
+                            verificationUrl: "http://localhost:3000/api/v1/verification/email?token=" + token.token
+                          }
                         })
                         .then(() => {
                           console.log("verification mail sent!")
