@@ -22,7 +22,7 @@ model VerificationTokens {
   token     String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int      @unique
 }
 
@@ -32,7 +32,7 @@ model Subscription {
   isActive       Boolean
   type           String
   userId         Int     @unique
-  user           User    @relation(fields: [userId], references: [id])
+  user           User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Media {

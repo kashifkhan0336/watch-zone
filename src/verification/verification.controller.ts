@@ -3,10 +3,12 @@ import { VerificationService } from './verification.service';
 import { verifyResetPasswordTokenDto } from './dto';
 import { requestResetPasswordTokenDto } from './dto';
 import { verifyResetPasswordPasscodeDto } from './dto'
+import { PrismaService } from 'src/shared/services/prisma.service';
 @Controller('verification')
 export class VerificationController {
     constructor(
-        private verificationService: VerificationService
+        private verificationService: VerificationService,
+        private readonly prismaService: PrismaService
     ) {
 
     }
@@ -43,7 +45,9 @@ export class VerificationController {
         recipe_id: string;
         time_joined: number;
     }) {
-        console.log(webhookBody)
+        console.log("deleting user...")
+        const _ = await this.prismaService.user.delete({ where: { userId: webhookBody.user_id } })
+        console.log(_)
         return "request recieved"
     }
 }
