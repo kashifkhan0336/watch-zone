@@ -1,19 +1,21 @@
 version: '3.8'
 services:
-  application:
-    container_name: main_nest_application
-    image: watchzone:latest
-    restart: always
-    # command: dev
-    ports:
-      - 3000:3000
-    depends_on:
-      - database
-    networks:
-      - app_network
+  # application:
+  #   container_name: main_nest_application
+  #   image: watchzone:latest
+  #   restart: always
+  #   # command: dev
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - database
+  #   networks:
+  #     - app_network
   database:
     container_name: pg_container
-    image: postgres
+    build:
+      context: .
+      dockerfile: pg-Dockerfile
     volumes:
       - ./data/database:/var/lib/postgresql/data
     restart: unless-stopped
@@ -30,8 +32,9 @@ services:
       retries: 5
     environment:
       POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
       POSTGRES_DB: supertokens
+    env_file:
+      - proj.env
     ports:
       - "5432:5432"
     networks:
@@ -54,11 +57,15 @@ services:
       timeout: 5s
       retries: 5
     restart: unless-stopped
+networks:
+  app_network:
+    driver: bridge
 
-  cache:
-    image: redis:6
-    networks:
-      - app_network
+
+  # cache:
+  #   image: redis:6
+  #   networks:
+  #     - app_network
 
   # directus:
   #   image: directus/directus:latest
@@ -86,22 +93,5 @@ services:
   #     REDIS: 'redis://cache:6379'
   #     ADMIN_EMAIL: 'admin@example.com'
   #     ADMIN_PASSWORD: 'd1r3ctu5'
-  pgadmin:
-    container_name: pgadmin4_container
-    image: dpage/pgadmin4
-    restart: always
-    volumes:
-      - ./data/pgadmin:/var/lib/pgadmin
-    depends_on:
-      database:
-        condition: service_healthy
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: root
-    ports:
-      - "5050:80"
-    networks:
-      - app_network
-networks:
-  app_network:
-    driver: bridge
+
+

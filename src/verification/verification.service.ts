@@ -49,6 +49,7 @@ export class VerificationService {
         }
 
         console.log("User found. Sending reset link...");
+
         const passcode = await generatePasscode();
         await this.prismaService.user.update({
             where: { email: user.email },
@@ -60,11 +61,11 @@ export class VerificationService {
                 }
             }
         })
-        
+
         console.log("Token sent successfully.");
-}
+    }
 
     async verifyResetPasswordPasscode(data: verifyResetPasswordPasscodeDto) {
-    console.log(data)
-}
+        console.log(data)
+    }
 }

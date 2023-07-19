@@ -5,6 +5,7 @@ import supertokens from 'supertokens-node';
 import { SupertokensExceptionFilter } from './auth/auth.filter';
 import * as SuperTokensConfig from '../config';
 import { VersioningType } from '@nestjs/common';
+import { PgNotifyServer } from 'nestjs-pg-notify';
 
 
 async function bootstrap() {

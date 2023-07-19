@@ -34,6 +34,18 @@ export class VerificationController {
     ) {
         return this.verificationService.requestResetPasswordPasscode(requestResetPasswordTokenDto)
     }
+
+    @Post("test")
+    async testWebhook(@Body() webhookBody: {
+        id: string;
+        tenant_id: string;
+        user_id: string;
+        recipe_id: string;
+        time_joined: number;
+    }) {
+        console.log(webhookBody)
+        return "request recieved"
+    }
 }
 
 
